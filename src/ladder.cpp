@@ -45,42 +45,32 @@ bool is_adjacent(const string& word1, const string& word2){
     return edit_distance_within(word1, word2, 1);
 }
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list){
-    if(begin_word == end_word){ 
-        vector<string> ret;
-        ret.push_back(begin_word);
-        return ret;
+    vector<string> fail;
+    if (begin_word == end_word){
+        // error(begin_word, end_word, "are the same words.")
+        result.push_back({begin_word});
+        return fail;
     }
-
-    queue<vector<string>> ladders;
+    queue<vector<string>> lq;
+    lq.push(begin_word);
     set<string> visited;
-    ladders.push({begin_word});
     visited.insert(begin_word);
 
-    while (!ladders.empty()) {
-        int level_size = ladders.size();
-
-        for (int i = 0; i < level_size; ++i) {
-            vector<string> current_ladder = ladders.front();
-            ladders.pop();
-            string last_word = current_ladder.back();
-
-            for (const string& word : word_list) {
-                if (is_adjacent(last_word, word) && (visited.find(word) == visited.end())) {
-                    if (word == end_word) {
-                        current_ladder.push_back(word);
-                        return current_ladder;
-                    }
-
-                    visited.insert(word);
-                    vector<string> new_ladder = current_ladder;
-                    new_ladder.push_back(word);
-                    ladders.push(new_ladder);
-                }
+    while (!lq.empty()) {
+        vector<string> ladder = lq.front();
+        lq.pop();
+        string last_word = lq.back();
+        for (const string& word : word_list) {
+            if (is_adjacent(last_word, word) && visited.find(word) == visited.end()) {
+                visited.insert(word);
+                vector<string> new_ladder = ladder;
+                new_ladder.push_back(word);
+                if (word == end_word) return new_ladder;
+                lq.push(new_ladder);
             }
         }
     }
-
-    return {};
+    return fail;
 }
 void load_words(set<string> & word_list, const string& file_name) {
     ifstream file(file_name);
