@@ -65,7 +65,11 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
                 visited.insert(word);
                 vector<string> new_ladder = ladder; //copy constructor
                 new_ladder.push_back(word);
-                if (word == end_word) return new_ladder;
+                if (word == end_word){
+                    // I think I may be reprocessing which causes an inf loop
+                    while (!lq.empty()) lq.pop();
+                    return new_ladder;
+                }
                 lq.push(new_ladder);
             }
         }
@@ -93,7 +97,7 @@ void print_word_ladder(const vector<string>& ladder) {
     }
 }
 void verify_word_ladder(const vector<string>& ladder) {
-    if (ladder.empty()) {
+    if (ladder.empty() || ladder.size() == 1) {
         cout << "The ladder is empty!" << endl;
         return;
     }
