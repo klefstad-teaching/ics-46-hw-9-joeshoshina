@@ -28,13 +28,13 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
     }
     //length off by 1
     if (len1 + 1 == len2) {
-        for (int i = 0; i <= len2; ++i) { // Loop must go up to len2 to check last char
+        for (int i = 0; i < len2; ++i) { // Loop must go up to len2 to check last char
             string comp = lower2.substr(0, i) + lower2.substr(i + 1);
             if (comp == lower1) return true;
         }
     } 
     else if (len1 == len2 + 1) {
-        for (int i = 0; i <= len1; ++i) { // Loop must go up to len1 to check last char
+        for (int i = 0; i < len1; ++i) { // Loop must go up to len1 to check last char
             string comp = lower1.substr(0, i) + lower1.substr(i + 1);
             if (comp == lower2) return true;
         }
