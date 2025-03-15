@@ -28,15 +28,13 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
     }
     //length off by 1
     if (len1 + 1 == len2) {
-        for (int i = 0; i < len2; ++i) { // Loop must go up to len2 to check last char
-            string comp = lower2.substr(0, i) + lower2.substr(i + 1);
-            if (comp == lower1) return true;
+        for (int i = 0; i < len2; ++i) {
+             if (lower2.substr(0, i) + lower2.substr(i + 1) == lower1) return true;
         }
     } 
     else if (len1 == len2 + 1) {
-        for (int i = 0; i < len1; ++i) { // Loop must go up to len1 to check last char
-            string comp = lower1.substr(0, i) + lower1.substr(i + 1);
-            if (comp == lower2) return true;
+        for (int i = 0; i < len1; ++i) {
+            if (lower1.substr(0, i) + lower1.substr(i + 1) == lower2) return true;
         }
     }
     return false;
@@ -62,7 +60,7 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
                 new_ladder.push_back(word);
                 if (word == end_word){
                     // I think I may be reprocessing which causes an inf loop
-                    while (!lq.empty()) lq.pop();
+                    // while (!lq.empty()) lq.pop();
                     return new_ladder;
                 }
                 lq.push(new_ladder);
@@ -92,7 +90,7 @@ void print_word_ladder(const vector<string>& ladder) {
     }
 }
 void verify_word_ladder(const vector<string>& ladder) {
-    if (ladder.empty() || ladder.size() == 1) {
+    if (ladder.empty()) {
         cout << "The ladder is empty!" << endl;
         return;
     }
