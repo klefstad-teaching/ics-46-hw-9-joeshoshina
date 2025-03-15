@@ -37,14 +37,41 @@ bool is_adjacent(const string& word1, const string& word2){
     return edit_distance_within(word1, word2, 1);
 }
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list){
-
+    vector<string> stuff;
+    return stuff;
 }
-void load_words(set<string> & word_list, const string& file_name){
-
+void load_words(set<string> & word_list, const string& file_name) {
+    ifstream file(file_name);
+    string word;
+    while (file >> word) {
+        word_list.insert(word);
+    }
+    file.close();
 }
-void print_word_ladder(const vector<string>& ladder){
-
+void print_word_ladder(const vector<string>& ladder) {
+    if (ladder.empty()) {
+        cout << "No word ladder found.\n";
+    } 
+    else {
+        cout << "Word ladder found: ";
+        for (const string& word : ladder) {
+            cout << word << " ";
+        }
+        cout << "\n";
+    }
 }
-void verify_word_ladder(){
+void verify_word_ladder(const vector<string>& ladder) {
+    if (ladder.empty()) {
+        cout << "The ladder is empty!" << endl;
+        return;
+    }
 
+    for (size_t i = 1; i < ladder.size(); i++) {
+        if (!is_adjacent(ladder[i - 1], ladder[i])) {
+            cout << "Error: The words '" << ladder[i - 1] << "' and '" << ladder[i] << "' are not adjacent!" << endl;
+            return;
+        }
+    }
+
+    cout << "The word ladder is valid." << endl;
 }
