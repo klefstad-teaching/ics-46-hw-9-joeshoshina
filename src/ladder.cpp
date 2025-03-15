@@ -48,18 +48,18 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
     vector<string> fail;
     if (begin_word == end_word){
         // error(begin_word, end_word, "are the same words.")
-        fail.push_back({begin_word});
+        fail.push_back(begin_word);
         return fail;
     }
     queue<vector<string>> lq;
-    lq.push(begin_word);
+    lq.push({begin_word});
     set<string> visited;
     visited.insert(begin_word);
 
     while (!lq.empty()) {
         vector<string> ladder = lq.front();
         lq.pop();
-        string last_word = lq.back();
+        string last_word = ladder.back();
         for (const string& word : word_list) {
             if (is_adjacent(last_word, word) && visited.find(word) == visited.end()) {
                 visited.insert(word);
