@@ -48,7 +48,7 @@ vector<string> generate_word_ladder(const string& begin_word, const string& end_
     vector<string> fail;
     if (begin_word == end_word){
         // error(begin_word, end_word, "are the same words.")
-        result.push_back({begin_word});
+        fail.push_back({begin_word});
         return fail;
     }
     queue<vector<string>> lq;
