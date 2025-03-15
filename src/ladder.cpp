@@ -7,7 +7,7 @@ void error(string word1, string word2, string msg){
 bool edit_distance_within(const std::string& str1, const std::string& str2, int d){
     int len1 = str1.size();
     int len2 = str2.size();
-    
+
     //converted the str to lower because my initial code would fail for case 2 otherwise
     string lower1 = str1;
     string lower2 = str2;
@@ -22,9 +22,9 @@ bool edit_distance_within(const std::string& str1, const std::string& str2, int 
         int count = 0;
         for (int i = 0; i < len1; ++i) {
             if (lower1[i] != lower2[i]) ++count;
-            if (count > 1) return false;
+            if (count > d) return false;
         }
-        return count == 1; // Must differ by exactly one character
+        return count <= d;
     }
     //length off by 1
     if (len1 + 1 == len2) {
