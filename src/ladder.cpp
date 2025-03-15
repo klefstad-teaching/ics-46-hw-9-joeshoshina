@@ -45,12 +45,7 @@ bool is_adjacent(const string& word1, const string& word2){
     return edit_distance_within(word1, word2, 1);
 }
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list){
-    //vector<string> fail;
-    // if (begin_word == end_word){
-    //     // error(begin_word, end_word, "are the same words.")
-    //     // fail.push_back(begin_word);
-    //     return fail;
-    // }
+    if (begin_word == end_word) return {};
     queue<vector<string>> lq;
     lq.push({begin_word});
     set<string> visited;
