@@ -1,4 +1,5 @@
 #include "ladder.h"
+#include <algorithm>
 
 void error(string word1, string word2, string msg){
     cout << "word1:" << word1 << " and " << "word2:" << word2 << " " << msg << endl;
