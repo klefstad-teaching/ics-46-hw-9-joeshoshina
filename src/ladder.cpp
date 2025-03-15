@@ -7,37 +7,39 @@ void error(string word1, string word2, string msg){
 bool edit_distance_within(const std::string& str1, const std::string& str2, int d){
     int len1 = str1.size();
     int len2 = str2.size();
-
-    //converted the str to lower because my initial code would fail for case 2 otherwise
-    string lower1 = str1;
-    string lower2 = str2;
-    transform(lower1.begin(), lower1.end(), lower1.begin(), ::tolower);
-    transform(lower2.begin(), lower2.end(), lower2.begin(), ::tolower);
-
     //Rule: either same length or differ by at most one character
     if (abs(len1 - len2) > 1) return false;
+
+    //all char to lower case
+    string lower1 = str1, lower2 = str2;
+    transform(lower1.begin(), lower1.end(), lower1.begin(), ::tolower);
+    transform(lower2.begin(), lower2.end(), lower2.begin(), ::tolower);
 
     //same length
     if (len1 == len2) {
         int count = 0;
         for (int i = 0; i < len1; ++i) {
-            if (lower1[i] != lower2[i]) ++count;
-            if (count > d) return false;
+            if (lower1[i] != lower2[i]) {
+                if (++count > d) return false;  // More than `d` edits, return early
+            }
         }
         return count <= d;
     }
+
     //length off by 1
-    if (len1 + 1 == len2) {
-        for (int i = 0; i < len2; ++i) {
-             if (lower2.substr(0, i) + lower2.substr(i + 1) == lower1) return true;
-        }
-    } 
-    else if (len1 == len2 + 1) {
-        for (int i = 0; i < len1; ++i) {
-            if (lower1.substr(0, i) + lower1.substr(i + 1) == lower2) return true;
+    if (len1 < len2) swap(lower1, lower2); //made lower always lower so I dont have to have double checks to reduce time
+    int i = 0, j = 0, mismatch = 0;
+    
+    while (i < lower1.size() && j < lower2.size()) {
+        if (lower1[i] != lower2[j]) {
+            if (++mismatch > 1) return false;
+            i++; //char longer str skip
+        } else {
+            i++; j++;
         }
     }
-    return false;
+
+    return true; //one char skipped
 }
 bool is_adjacent(const string& word1, const string& word2){
     return edit_distance_within(word1, word2, 1);
